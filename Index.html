@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Enter a location for Weather ..." id="search-box">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" id="button">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="" id="icon">
+            <h1 id="city">Dhaka</h1>
+            <h3><span id="temp">38.06</span>&deg;C</h3>
+            <h1 class="lead" id="type">Clouds</h1>
+        </div>
+    </div>
+
+</body>
+<script>
+    document.getElementById('button').addEventListener('click',function(){
+        const value=document.getElementById('search-box').value;
+        fetch('https://api.openweathermap.org/data/2.5/weather?q='+value+'&appid=1194f613c14d13d28aa2b291c58699d9')
+        .then(res=>res.json())
+        .then(data=>{
+        console.log(data);
+        const cityName=data.name;
+        const temp= (parseFloat(data.main.temp)-273).toFixed(2);
+        const weather=data.weather[0].main;
+        const icon=data.weather[0].icon;
+        document.getElementById('city').innerText=cityName;
+        document.getElementById('temp').innerText=temp;
+        document.getElementById('type').innerText=weather;
+        document.getElementById('icon').src= "https://openweathermap.org/img/wn/"+icon+"@2x.png";
+    })
+    })
+</script>
+
+</html>
